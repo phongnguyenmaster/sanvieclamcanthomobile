@@ -17,6 +17,12 @@ function HomeScreen({ navigation, route }) {
         title="Create post"
         onPress={() => navigation.navigate('CreatePost')}
       />
+      <Button
+        onPress={() =>
+          navigate('Profile', { names: ['Brent', 'Satya', 'Michaś'] })
+        }
+        title="Go to Brent's profile"
+      />
       <Text style={{ margin: 10 }}>Post: {route.params?.post}</Text>
     </View>
   );
@@ -64,6 +70,27 @@ function CreatePostScreen({ navigation, route }) {
     </>
   );
 }
+
+function ProfileScreen({ navigation: { setParams } }) {
+    return (
+      <Button
+        onPress={() =>
+          setParams({
+            friends:
+              route.params.friends[0] === 'Brent'
+                ? ['Wojciech', 'Szymon', 'Jakub']
+                : ['Brent', 'Satya', 'Michaś'],
+            title:
+              route.params.title === "Brent's Profile"
+                ? "Lucy's Profile"
+                : "Brent's Profile",
+          })
+        }
+        title="Swap title and friends"
+      />
+    );
+}
+
 const Stack = createStackNavigator();
 
 function App() {
@@ -72,6 +99,7 @@ function App() {
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+        <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Details" component={DetailsScreen} initialParams={{ itemId: 42 }} />
       </Stack.Navigator>
     </NavigationContainer>
